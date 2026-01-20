@@ -21,6 +21,16 @@ export interface iFlightSearchForm {
   errors: FieldErrors<iFlightSearchFormData>
 }
 
+export interface iFlightFilter {
+  stops: 'any' | 'nonstop' | 'one' | 'two'
+  airlines: string[]
+  priceRange: [number, number]
+  departureTime: [number, number]
+  arrivalTime: [number, number]
+  connectingAirports: string[]
+  maxDuration: number
+}
+
 export interface iAmadeusResponseError {
   description: Array<{
     status: number,

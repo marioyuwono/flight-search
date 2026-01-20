@@ -62,7 +62,7 @@ export function FlightSearch() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full mx-auto">
       <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-6 md:p-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
           Search Flights

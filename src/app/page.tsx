@@ -12,7 +12,7 @@ export default function Home() {
         Use our powerful flight search engine to find the best deals on flights worldwide.
         Search by departure and return dates, number of passengers, and cabin class.
       </SectionTitle>
-      <FlightSearch/>
+      <FlightSearch />
     </Container>
   );
 }
