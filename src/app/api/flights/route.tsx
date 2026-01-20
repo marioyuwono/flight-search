@@ -1,9 +1,9 @@
-import { AmadeusResponseError, FlightSearchRequest } from '@/components/Interfaces'
+import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Search flights using Amadeus API
-async function searchFlights(params: FlightSearchRequest): Promise<any> {
+async function searchFlights(params: iFlightSearchRequest): Promise<any> {
 	const searchOption = {
 		originLocationCode: params.source,
 		destinationLocationCode: params.destination,
@@ -25,13 +25,13 @@ async function searchFlights(params: FlightSearchRequest): Promise<any> {
 	}
 }
 
-function getError(responseError: AmadeusResponseError): string {
+function getError(responseError: iAmadeusResponseError): string {
 	return responseError?.description[0].title ?? responseError.code
 }
 
 export async function POST(request: NextRequest) {
 	try {
-		const body: FlightSearchRequest = await request.json()
+		const body: iFlightSearchRequest = await request.json()
 
 		// Validate required fields
 		if (!body.source || !body.destination || !body.departureDate) {

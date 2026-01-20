@@ -1,4 +1,6 @@
-export interface FlightSearchRequest {
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form"
+
+export interface iFlightSearchRequest {
   tripType: 'roundtrip' | 'oneway' | 'multicity'
   source: string
   destination: string
@@ -10,10 +12,16 @@ export interface FlightSearchRequest {
   cabinClass: 'ECONOMY' | 'PREMIUM_ECONOMY' | 'BUSINESS' | 'FIRST'// Amadeus API's cabin class
 }
 
-export interface FlightSearchFormData extends FlightSearchRequest {
+export interface iFlightSearchFormData extends iFlightSearchRequest {
 }
 
-export interface AmadeusResponseError {
+export interface iFlightSearchForm {
+  register: UseFormRegister<iFlightSearchFormData>
+  watch: UseFormWatch<iFlightSearchFormData>
+  errors: FieldErrors<iFlightSearchFormData>
+}
+
+export interface iAmadeusResponseError {
   description: Array<{
     status: number,
     code: number,
