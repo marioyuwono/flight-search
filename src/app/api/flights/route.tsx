@@ -1,0 +1,75 @@
+import { AmadeusResponseError, FlightSearchRequest } from '@/components/Interfaces'
+import Amadeus from 'amadeus'
+import { NextRequest, NextResponse } from 'next/server'
+
+// Search flights using Amadeus API
+async function searchFlights(params: FlightSearchRequest): Promise<any> {
+	const searchOption = {
+		originLocationCode: params.source,
+		destinationLocationCode: params.destination,
+		departureDate: params.departureDate,
+		adults: params.adults.toString(),
+		children: params.children.toString(),
+		infants: params.infants.toString(),
+		travelClass: params.cabinClass || 'ECONOMY',
+		nonStop: 'false',
+		max: '10',
+	}
+
+	try {
+		const amadeus = new Amadeus
+		return amadeus.shopping.flightOffersSearch.get(searchOption)
+	} catch (error: any) {
+		console.error('Flight search error:', getError(error))
+		throw getError(error)
+	}
+}
+
+function getError(responseError: AmadeusResponseError): string {
+	return responseError?.description[0].title ?? responseError.code
+}
+
+export async function POST(request: NextRequest) {
+	try {
+		const body: FlightSearchRequest = await request.json()
+
+		// Validate required fields
+		if (!body.source || !body.destination || !body.departureDate) {
+			return NextResponse.json({
+				error: 'Missing required fields: source, destination, and departureDate',
+			}, { status: 400 })
+		}
+
+		// Validate dates
+		const departureDate = new Date(body.departureDate)
+		const today = new Date
+		today.setHours(0, 0, 0, 0)
+
+		if (departureDate < today) {
+			return NextResponse.json({
+				error: 'Departure date must be in the future',
+			}, { status: 400 })
+		}
+
+		if (body.returnDate) {
+			const returnDate = new Date(body.returnDate)
+			if (returnDate < departureDate) {
+				return NextResponse.json({
+					error: 'Return date must be after departure date',
+				}, { status: 400 })
+			}
+		}
+
+		// Search for flights
+		const results = await searchFlights(body)
+
+		return NextResponse.json(results)
+	} catch (error) {
+		console.error('API error:', error)
+		const errorMessage = error instanceof Error ? error.message : 'Failed to search flights'
+
+		return NextResponse.json({
+			error: errorMessage,
+		}, { status: 500 })
+	}
+}
