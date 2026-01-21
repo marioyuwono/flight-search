@@ -18,7 +18,7 @@ export function FlightCabinClass({ formMethods }: Readonly<iFlightSearchForm>) {
               {...register('cabinClass')}
               className="w-4 h-4 text-blue-600"
             />
-            <span className="ml-2 text-gray-700 dark:text-gray-300">
+            <span className="ml-2 text-nowrap text-gray-700 dark:text-gray-300">
               {cabin.label}
             </span>
           </label>
