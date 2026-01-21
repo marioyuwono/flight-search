@@ -1,15 +1,9 @@
 import { iFlightSearchForm } from "./Interfaces"
 
-export function FlightPassengers({
-  register,
-  watch,
-  errors,
-}: Readonly<iFlightSearchForm>) {
+export function FlightPassengers({ formMethods }: Readonly<iFlightSearchForm>) {
+  const { register, watch, setValue, formState: { errors } } = formMethods
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-        Passengers
-      </label>
       <div className="grid grid-cols-3 gap-4">
         <div>
           <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">

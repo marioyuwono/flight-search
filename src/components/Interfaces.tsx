@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form"
+import { UseFormReturn } from "react-hook-form"
 
 export interface iAmadeusResponseError {
   description: Array<{
@@ -57,9 +57,7 @@ export interface iFlightSearchFormData extends iFlightSearchRequest {
 }
 
 export interface iFlightSearchForm {
-  register: UseFormRegister<iFlightSearchFormData>
-  watch: UseFormWatch<iFlightSearchFormData>
-  errors: FieldErrors<iFlightSearchFormData>
+  formMethods: UseFormReturn<iFlightSearchFormData>
 }
 
 export interface iFlightFilter {

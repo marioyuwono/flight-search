@@ -1,23 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form'
-import { iFlightSearchFormData } from './Interfaces'
-import { FlightTripTypeSelection } from './FlightTripTypeSelection'
-import { FlightSourceAndDestination } from './FlightSourceAndDestination'
+import { useForm } from 'react-hook-form'
+import { FlightCabinClass } from './FlightCabinClass'
 import { FlightDepartureAndReturnDate } from './FlightDepartureAndReturnDate'
 import { FlightPassengers } from './FlightPassengers'
-import { FlightCabinClass } from './FlightCabinClass'
 import { FlightResults } from './FlightResults'
+import { FlightSourceAndDestination } from './FlightSourceAndDestination'
+import { FlightTripTypeSelection } from './FlightTripTypeSelection'
+import { iFlightSearchFormData } from './Interfaces'
 
 
 export function FlightSearch() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<iFlightSearchFormData>({
+  const formMethods = useForm<iFlightSearchFormData>({
     defaultValues: {
       tripType: 'roundtrip',
       adults: 1,
@@ -26,6 +21,9 @@ export function FlightSearch() {
       cabinClass: 'ECONOMY',
     },
   })
+  const {
+    handleSubmit,
+  } = formMethods
   const [isLoading, setIsLoading] = useState(false)
   const [searchResults, setSearchResults] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -70,19 +68,21 @@ export function FlightSearch() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Trip Type Selection */}
-          <FlightTripTypeSelection register={register} watch={watch} errors={errors} />
+          <FlightTripTypeSelection formMethods={formMethods} />
 
-          {/* Source and Destination */}
-          <FlightSourceAndDestination register={register} watch={watch} errors={errors} />
+          <div className='grid md:grid-cols-2 gap-4'>
+            {/* Source and Destination */}
+            <FlightSourceAndDestination formMethods={formMethods} />
 
-          {/* Departure and Return Dates */}
-          <FlightDepartureAndReturnDate register={register} watch={watch} errors={errors} />
+            {/* Departure and Return Dates */}
+            <FlightDepartureAndReturnDate formMethods={formMethods} />
+          </div>
 
           {/* Passengers */}
-          <FlightPassengers register={register} watch={watch} errors={errors} />
+          <FlightPassengers formMethods={formMethods} />
 
           {/* Cabin Class */}
-          <FlightCabinClass register={register} watch={watch} errors={errors} />
+          <FlightCabinClass formMethods={formMethods} />
 
           {/* Error Message */}
           {errorMessage && (
