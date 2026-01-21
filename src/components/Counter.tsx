@@ -52,14 +52,14 @@ export const Counter: FC<CounterProps> = ({
         <button
           type="button"
           onClick={decrement}
-          className="ml-2 px-3 py-2 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
+          className="ml-2 px-3 py-2 text-gray-700 dark:text-white hover:bg-gray-200 hover:text-blue-500 dark:hover:bg-gray-700 rounded-lg"
         >
           <MinusIcon className="size-4" />
         </button>
         <button
           type="button"
           onClick={increment}
-          className="ml-2 px-3 py-2 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
+          className="ml-2 px-3 py-2 text-gray-700 dark:text-white hover:bg-gray-200 hover:text-blue-500 dark:hover:bg-gray-700 rounded-lg"
         >
           <PlusIcon className="size-4" />
         </button>

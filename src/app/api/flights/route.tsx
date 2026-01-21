@@ -1,4 +1,5 @@
 import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
+import { join } from '@/components/Methods'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -34,9 +35,21 @@ export async function POST(request: NextRequest) {
 		const body: iFlightSearchRequest = await request.json()
 
 		// Validate required fields
-		if (!body.source || !body.destination || !body.departureDate) {
+    const required = {
+      source: 'Point of Origin',
+      destination: 'Destination',
+      departureDate: 'Departure Date',
+      returnDate: 'Return Date',
+    }
+    const missing: Array<string> = []
+    Object.entries(required).forEach(([key, text]) => {
+      if (!body[key as keyof iFlightSearchRequest]) {
+        missing.push(text)
+      }
+    } )
+		if (missing.length > 0) {
 			return NextResponse.json({
-				error: 'Missing required fields: source, destination, and departureDate',
+				error: 'Missing required fields: ' + join(missing),
 			}, { status: 400 })
 		}
 

@@ -45,8 +45,8 @@ export interface iFlightSearchRequest {
   tripType: 'roundtrip' | 'oneway' | 'multicity'
   source: string
   destination: string
-  departureDate: string
-  returnDate: string
+  departureDate: Date
+  returnDate: Date
   adults: number
   children: number
   infants: number

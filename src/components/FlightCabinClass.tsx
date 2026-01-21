@@ -4,7 +4,7 @@ export function FlightCabinClass({ formMethods }: Readonly<iFlightSearchForm>) {
   const { register, watch, setValue, formState: { errors } } = formMethods
   return (
     <div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-3 md:flex md:justify-between md:w-full">
         {[
           { value: 'ECONOMY', label: 'Economy' },
           { value: 'PREMIUM_ECONOMY', label: 'Premium Economy' },
