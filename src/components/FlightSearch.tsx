@@ -28,14 +28,12 @@ export function FlightSearch() {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [searchResults, setSearchResults] = useState<any>(null)
-  const [searchParams, setSearchParams] = useState<iFlightSearchFormData | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
 
   const onSubmit = async (data: iFlightSearchFormData) => {
     setIsLoading(true)
     setErrorMessage('')
     setSearchResults(null)
-    setSearchParams(data)
 
     try {
       // Call the API route to search flights
@@ -104,7 +102,7 @@ export function FlightSearch() {
         </form>
 
         {/* Search Results */}
-        <FlightResults searchResults={searchResults} searchParams={searchParams || undefined} />
+        <FlightResults searchResults={searchResults} />
       </div>
     </div>
   )

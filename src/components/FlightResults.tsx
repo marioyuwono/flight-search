@@ -1,17 +1,14 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { FlightFilters } from './FlightFilters'
 import { FlightList } from './FlightList'
-import { iFlightFilter, iFlightSearchRequest } from './Interfaces'
-import { FlightPriceTrendChart } from './FlightPriceTrendChart'
+import { iFlightFilter } from './Interfaces'
 
 export function FlightResults({
   searchResults,
-  searchParams,
 }: Readonly<{
   searchResults: any
-  searchParams?: iFlightSearchRequest
 }>) {
   const [filters, setFilters] = useState<iFlightFilter>({
     stops: 'any',
@@ -22,39 +19,8 @@ export function FlightResults({
     connectingAirports: [],
     maxDuration: 1440,
   })
-  const [priceTrendData, setPriceTrendData] = useState<any[]>([])
-  const [selectedTrendDate, setSelectedTrendDate] = useState<string | null>(null)
-  const [isLoadingTrends, setIsLoadingTrends] = useState(false)
 
-  // Fetch price trend data when component mounts or search params change
-  useEffect(() => {
-    if (!searchParams || !searchParams.source || !searchParams.destination || !searchParams.departureDate) {
-      return
-    }
-
-    const fetchTrends = async () => {
-      setIsLoadingTrends(true)
-      try {
-        const response = await fetch('/api/fare-trends', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(searchParams),
-        })
-
-        if (response.ok) {
-          const result = await response.json()
-          setPriceTrendData(result.data || [])
-        }
-      } catch (error) {
-        console.error('Failed to fetch price trends:', error)
-      } finally {
-        setIsLoadingTrends(false)
-      }
-    }
-
-    fetchTrends()
-  }, [searchParams])
-
+  // Initialize price range based on actual flight data
   const initialPriceRange = useMemo(() => {
     if (!searchResults?.data || searchResults.data.length === 0) {
       return [0, 1000]
@@ -72,7 +38,7 @@ export function FlightResults({
     if (filters.priceRange[0] === 0 && filters.priceRange[1] === 1000) {
       setFilters((prev) => ({
         ...prev,
-        priceRange: initialPriceRange as [number, number],
+        priceRange: initialPriceRange,
         maxDuration: 1440,
       }))
     }
@@ -112,7 +78,7 @@ export function FlightResults({
         const connectingAirports = segments
           .slice(0, -1)
           .map((seg: any) => seg.arrival.iataCode)
-        const hasMatchingAirport = connectingAirports.some((airport: string) =>
+        const hasMatchingAirport = connectingAirports.some((airport) =>
           filters.connectingAirports.includes(airport)
         )
         if (!hasMatchingAirport) return false
@@ -153,19 +119,9 @@ export function FlightResults({
         if (totalMinutes > filters.maxDuration) return false
       }
 
-      // Filter by selected trend date if one is selected
-      if (selectedTrendDate) {
-        // Extract the date from the departure time of the first segment
-        const flightDepDate = segments[0]?.departure?.at
-        if (flightDepDate) {
-          const flightDate = flightDepDate.split('T')[0]
-          if (flightDate !== selectedTrendDate) return false
-        }
-      }
-
       return true
     })
-  }, [searchResults, filters, selectedTrendDate])
+  }, [searchResults, filters])
 
   if (!searchResults) {
     return null
@@ -176,14 +132,6 @@ export function FlightResults({
       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
         Flight Results
       </h3>
-
-      {/* Price Trend Chart */}
-      <FlightPriceTrendChart
-        data={priceTrendData}
-        onDateSelect={setSelectedTrendDate}
-        isLoading={isLoadingTrends}
-      />
-
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
         {/* Filters Sidebar */}
