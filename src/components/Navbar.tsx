@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Disclosure } from "@headlessui/react";
 
 export const Navbar = () => {
-  const navigation = [
+  const navigation: any[] = [
   ];
 
   return (

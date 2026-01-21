@@ -31,6 +31,12 @@ export interface iFlightFilter {
   maxDuration: number
 }
 
+export interface iFlightFareTrendData {
+  date: string
+  price: number
+  departureDate: string
+}
+
 export interface iAmadeusResponseError {
   description: Array<{
     status: number,
