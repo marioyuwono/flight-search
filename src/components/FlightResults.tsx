@@ -38,7 +38,7 @@ export function FlightResults({
     if (filters.priceRange[0] === 0 && filters.priceRange[1] === 1000) {
       setFilters((prev) => ({
         ...prev,
-        priceRange: initialPriceRange,
+        priceRange: initialPriceRange as [number, number],
         maxDuration: 1440,
       }))
     }
@@ -78,7 +78,7 @@ export function FlightResults({
         const connectingAirports = segments
           .slice(0, -1)
           .map((seg: any) => seg.arrival.iataCode)
-        const hasMatchingAirport = connectingAirports.some((airport) =>
+        const hasMatchingAirport = connectingAirports.some((airport: string) =>
           filters.connectingAirports.includes(airport)
         )
         if (!hasMatchingAirport) return false

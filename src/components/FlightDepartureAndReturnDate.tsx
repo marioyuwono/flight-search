@@ -1,3 +1,4 @@
+import { iFlightSearchForm } from "./Interfaces"
 
 export function FlightDepartureAndReturnDate({
   register,
