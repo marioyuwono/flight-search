@@ -1,5 +1,5 @@
 import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
-import { join } from '@/components/Methods'
+import { join, normalizeDateAsString } from '@/components/Methods'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -8,7 +8,7 @@ async function searchFlights(params: iFlightSearchRequest): Promise<any> {
 	const searchOption = {
 		originLocationCode: params.source,
 		destinationLocationCode: params.destination,
-		departureDate: params.departureDate,
+    departureDate: normalizeDateAsString(params.departureDate),
 		adults: params.adults.toString(),
 		children: params.children.toString(),
 		infants: params.infants.toString(),

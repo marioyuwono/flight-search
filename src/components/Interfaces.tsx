@@ -11,6 +11,17 @@ export interface iAmadeusResponseError {
   code: string
 }
 
+export interface iAirport {
+  iataCode: string
+  name: string
+  city: string
+  country: string
+}
+
+export interface iAirportCache {
+  [key: string]: iAirport // key is iataCode
+}
+
 export interface iChartAirlineData {
   airline: string
   count: number
@@ -31,6 +42,7 @@ export interface iChartDepartureTimeData {
 
 export interface iChartDestinationData {
   destination: string
+  destinationName?: string
   count: number
   percentage: number
 }

@@ -17,7 +17,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
 
   if (tripType == 'oneway') {
     return (
-      <div>
+      <div className="w-64">
         <input
           type="date"
           {...register('departureDate', {
@@ -31,7 +31,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
   }
 
   return (
-    <div>
+      <div className="w-64">
       <DatePicker
         selected={departureDate}
         onChange={(dates: [Date | null, Date | null] | null) => {

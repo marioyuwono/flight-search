@@ -1,4 +1,4 @@
-import { iChartAirlineData, iChartAvailabilityData, iChartDepartureTimeData, iChartDestinationData, iChartDurationData } from "@/components/Interfaces"
+import { iChartAirlineData, iChartAvailabilityData, iChartDepartureTimeData, iChartDestinationData, iChartDurationData, iAirportCache } from "@/components/Interfaces"
 
 /**
  * Process flight availability data (direct vs connecting flights)
@@ -83,7 +83,7 @@ export function getDepartureTimeDistribution(flights: any[]): iChartDepartureTim
 /**
  * Get top destinations from a city
  */
-export function getTopDestinations(flights: any[], limit = 10): iChartDestinationData[] {
+export function getTopDestinations(flights: any[], limit = 10, airportCache: iAirportCache = {}): iChartDestinationData[] {
   if (!flights || flights.length === 0) {
     return []
   }
@@ -91,14 +91,18 @@ export function getTopDestinations(flights: any[], limit = 10): iChartDestinatio
   const destinationMap: Record<string, number> = {}
 
   flights.forEach((flight) => {
-    const destination = flight.itineraries?.[0]?.segments?.[0]?.departure?.iataCode
+    const destination = flight.itineraries?.[0]?.segments?.[flight.itineraries[0].segments.length - 1]?.arrival?.iataCode
     if (destination) {
       destinationMap[destination] = (destinationMap[destination] || 0) + 1
     }
   })
 
   const data = Object.entries(destinationMap)
-    .map(([dest, count]) => ({ destination: dest, count }))
+    .map(([dest, count]: [string, number]) => ({ 
+      destination: dest, 
+      destinationName: airportCache[dest]?.name || dest,
+      count 
+    }))
     .sort((a, b) => b.count - a.count)
     .slice(0, limit)
 
