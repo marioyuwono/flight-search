@@ -1,5 +1,46 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form"
 
+export interface iAmadeusResponseError {
+  description: Array<{
+    status: number,
+    code: number,
+    title: string,
+    detail: string,
+    source: any
+  }>,
+  code: string
+}
+
+export interface iChartAirlineData {
+  airline: string
+  count: number
+  percentage: number
+}
+
+export interface iChartAvailabilityData {
+  name: string
+  count: number
+  percentage: number
+}
+
+export interface iChartDepartureTimeData {
+  timeRange: string
+  count: number
+  percentage: number
+}
+
+export interface iChartDestinationData {
+  destination: string
+  count: number
+  percentage: number
+}
+
+export interface iChartDurationData {
+  range: string
+  count: number
+  percentage: number
+}
+
 export interface iFlightSearchRequest {
   tripType: 'roundtrip' | 'oneway' | 'multicity'
   source: string
@@ -29,15 +70,4 @@ export interface iFlightFilter {
   arrivalTime: [number, number]
   connectingAirports: string[]
   maxDuration: number
-}
-
-export interface iAmadeusResponseError {
-  description: Array<{
-    status: number,
-    code: number,
-    title: string,
-    detail: string,
-    source: any
-  }>,
-  code: string
 }

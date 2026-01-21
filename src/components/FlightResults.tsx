@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { FlightCharts } from './FlightCharts'
 import { FlightFilters } from './FlightFilters'
 import { FlightList } from './FlightList'
 import { iFlightFilter } from './Interfaces'
@@ -19,6 +20,59 @@ export function FlightResults({
     connectingAirports: [],
     maxDuration: 1440,
   })
+
+  const handleChartFilterChange = (filterType: string, value: string) => {
+    switch (filterType) {
+      case 'availability':
+        if (value === 'Direct') {
+          setFilters((prev) => ({ ...prev, stops: 'nonstop' }))
+        } else if (value === 'One Stop') {
+          setFilters((prev) => ({ ...prev, stops: 'one' }))
+        } else if (value === '2+ Stops') {
+          setFilters((prev) => ({ ...prev, stops: 'two' }))
+        }
+        break
+      case 'airline':
+        setFilters((prev) => ({
+          ...prev,
+          airlines: [value],
+        }))
+        break
+      case 'destination':
+        // Destination filter would require route change
+        break
+      case 'departureTime':
+        // Parse time range and set departure time filter
+        const timeMap: Record<string, [number, number]> = {
+          '00:00-06:00': [0, 360],
+          '06:00-12:00': [360, 720],
+          '12:00-18:00': [720, 1080],
+          '18:00-24:00': [1080, 1440],
+        }
+        if (timeMap[value]) {
+          setFilters((prev) => ({
+            ...prev,
+            departureTime: timeMap[value],
+          }))
+        }
+        break
+      case 'duration':
+        // Parse duration range and set max duration filter
+        const durationMap: Record<string, number> = {
+          '0-3h': 180,
+          '3-6h': 360,
+          '6-12h': 720,
+          '12h+': 1440,
+        }
+        if (durationMap[value]) {
+          setFilters((prev) => ({
+            ...prev,
+            maxDuration: durationMap[value],
+          }))
+        }
+        break
+    }
+  }
 
   // Initialize price range based on actual flight data
   const initialPriceRange = useMemo(() => {
@@ -128,26 +182,37 @@ export function FlightResults({
   }
 
   return (
-    <div className="mt-8">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        Flight Results
-      </h3>
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+    <>
+      <div className="my-8">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+          Flight Results
+        </h3>
 
-        {/* Filters Sidebar */}
-        <div className="lg:col-span-1">
-          <FlightFilters
-            flights={searchResults.data || []}
-            filters={filters}
-            onFilterChange={setFilters}
-          />
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
-        {/* Flights List */}
-        <div className="lg:col-span-3">
-          <FlightList searchResults={searchResults} filteredFlights={filteredFlights} />
+          {/* Filters Sidebar */}
+          <div className="lg:col-span-1">
+            <FlightFilters
+              flights={searchResults.data || []}
+              filters={filters}
+              onFilterChange={setFilters}
+            />
+          </div>
+
+          {/* Flights List */}
+          <div className="lg:col-span-3">
+            <FlightList searchResults={searchResults} filteredFlights={filteredFlights} />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Flight Charts */}
+      <div className="my-8">
+        <FlightCharts
+          flights={searchResults.data || []}
+          onChartFilterChange={handleChartFilterChange}
+        />
+      </div>
+    </>
   )
 }
