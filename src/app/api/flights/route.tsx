@@ -14,7 +14,7 @@ async function searchFlights(params: iFlightSearchRequest): Promise<any> {
 		infants: params.infants.toString(),
 		travelClass: params.cabinClass || 'ECONOMY',
 		nonStop: 'false',
-		max: '10',
+		max: '50',
 	}
 
 	try {
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 			}, { status: 400 })
 		}
 
-		if (body.returnDate) {
+		if (body.returnDate && body.tripType != 'oneway') {
 			const returnDate = new Date(body.returnDate)
 			if (returnDate < departureDate) {
 				return NextResponse.json({
