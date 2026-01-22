@@ -9,6 +9,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
   const tripType = watch("tripType")
   const departureDate = watch("departureDate")
   const returnDate = watch("returnDate")
+  const className = 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 
   useEffect(() => {
     register("departureDate", { required: "Departure date is required" })
@@ -23,7 +24,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
           {...register('departureDate', {
             required: 'Departure date is required',
           })}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={className}
         />
         {errors.departureDate && <p className="text-red-500 text-sm mt-1">{errors.departureDate.message}</p>}
       </div>
@@ -49,7 +50,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
         endDate={returnDate}
         selectsRange
         placeholderText="Select departure and return"
-        className="w-full px-4 py-2 border rounded-lg"
+        className={className}
       />
       {errors.departureDate && <p className="text-red-500 text-sm mt-1">{errors.departureDate.message}</p>}
       {errors.returnDate && <p className="text-red-500 text-sm mt-1">{errors.returnDate.message}</p>}

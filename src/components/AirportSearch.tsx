@@ -22,7 +22,8 @@ export function AirportSearch({
   placeholder: string
 }) {
   const { register, watch, setValue, formState: { errors } } = formMethods
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState("") // what user sees in the input
+  const [searchQuery, setSearchQuery] = useState("") // what drives airport search
   const [airports, setAirports] = useState<Airport[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +35,7 @@ export function AirportSearch({
   // Search airports as user types
   useEffect(() => {
     const searchAirports = async () => {
-      if (input.length < 1) {
+      if (searchQuery.length < 1) {
         setAirports([])
         setIsOpen(false)
         return
@@ -43,7 +44,7 @@ export function AirportSearch({
       setIsLoading(true)
       try {
         const response = await fetch(
-          `/api/airports/search?query=${encodeURIComponent(input)}`
+          `/api/airports/search?query=${encodeURIComponent(searchQuery)}`
         )
         if (!response.ok) throw new Error("Failed to search airports")
         const data = await response.json()
@@ -59,7 +60,7 @@ export function AirportSearch({
 
     const debounceTimer = setTimeout(searchAirports, 300)
     return () => clearTimeout(debounceTimer)
-  }, [input])
+  }, [searchQuery])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -73,22 +74,27 @@ export function AirportSearch({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  // Update input when field value changes (e.g., on swap)
   useEffect(() => {
-    if (fieldValue && fieldValue !== input) {
-      setInput(fieldValue)
+    if (fieldValue) {
+      const airport = airports.find(a => a.iataCode === fieldValue)
+      if (airport) {
+        setInput(`${airport.name} (${airport.iataCode})`)
+      } else {
+        setInput(fieldValue) // fallback if not found
+      }
     }
-  }, [fieldValue])
+  }, [fieldValue, airports])
 
   const handleSelectAirport = (airport: Airport) => {
     setValue(fieldName, airport.iataCode)
-    setInput(airport.iataCode)
+    setInput(formatAirportDisplay(airport))
     setIsOpen(false)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase()
-    setInput(value)
+    setInput(value) // display value
+    setSearchQuery(value) // triggers search
     setValue(fieldName, value) // Update form value with current input
   }
 
