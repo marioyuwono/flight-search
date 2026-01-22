@@ -64,12 +64,9 @@ export function FlightCharts({
 
   return (
     <>
-    {/* <div className="w-full mb-8"> */}
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-        Flight Analytics
-      </h3>
+      <div className="space-y-4">
+        <Tips />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Flight Availability Breakdown - Pie Chart */}
         {availabilityData.length > 0 && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -302,13 +299,16 @@ export function FlightCharts({
           </div>
         )}
       </div>
-
-      <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-        <p className="text-sm text-blue-800 dark:text-blue-200">
-          💡 Tip: Click on chart elements to filter results by that category
-        </p>
-      </div>
-    {/* </div> */}
     </>
+  )
+}
+
+function Tips() {
+  return (
+    <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+      <p className="text-sm text-blue-800 dark:text-blue-200">
+        💡 Tip: Click on chart elements to filter results by that category
+      </p>
+    </div>
   )
 }

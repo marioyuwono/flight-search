@@ -132,9 +132,29 @@ export function FlightFilters({
 		return `${hours}h ${mins}m`
 	}
 
+	const handleResetFilters = () => {
+		onFilterChange({
+			stops: 'any',
+			airlines: [],
+			priceRange: [filterOptions.priceRange[0], filterOptions.priceRange[1]],
+			departureTime: [0, 1440],
+			arrivalTime: [0, 1440],
+			connectingAirports: [],
+			maxDuration: filterOptions.maxDuration,
+		})
+	}
+
 	return (
 		<div className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 space-y-6">
-			<h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
+			<div className="flex justify-between items-center">
+				<h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
+				<button
+					onClick={handleResetFilters}
+					className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+				>
+					Reset
+				</button>
+			</div>
 
 			{/* Stops Filter */}
 			<div>

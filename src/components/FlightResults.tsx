@@ -11,6 +11,7 @@ export function FlightResults({
 }: Readonly<{
   searchResults: any
 }>) {
+  const [activeTab, setActiveTab] = useState<'filters' | 'charts'>('filters')
   const [filters, setFilters] = useState<iFlightFilter>({
     stops: 'any',
     airlines: [],
@@ -181,6 +182,9 @@ export function FlightResults({
     return null
   }
 
+  const sidebarColSpan = activeTab === 'filters' ? 'lg:col-span-1' : 'lg:col-span-2'
+  const contentColSpan = activeTab === 'filters' ? 'lg:col-span-4' : 'lg:col-span-3'
+
   return (
     <>
       <div className="my-8">
@@ -188,30 +192,55 @@ export function FlightResults({
           Flight Results
         </h3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
 
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <FlightFilters
-              flights={searchResults.data || []}
-              filters={filters}
-              onFilterChange={setFilters}
-            />
+          {/* Sidebar with Tabs */}
+          <div className={`${sidebarColSpan}`}>
+            {/* Tab Buttons */}
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() => setActiveTab('filters')}
+                className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  activeTab === 'filters'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600'
+                }`}
+              >
+                Filters
+              </button>
+              <button
+                onClick={() => setActiveTab('charts')}
+                className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  activeTab === 'charts'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600'
+                }`}
+              >
+                Analytics
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            {activeTab === 'filters' && (
+              <FlightFilters
+                flights={searchResults.data || []}
+                filters={filters}
+                onFilterChange={setFilters}
+              />
+            )}
+            {activeTab === 'charts' && (
+              <FlightCharts
+                flights={searchResults.data || []}
+                onChartFilterChange={handleChartFilterChange}
+              />
+            )}
           </div>
 
           {/* Flights List */}
-          <div className="lg:col-span-3">
+          <div className={`${contentColSpan}`}>
             <FlightList searchResults={searchResults} filteredFlights={filteredFlights} />
           </div>
         </div>
-      </div>
-
-      {/* Flight Charts */}
-      <div className="my-8">
-        <FlightCharts
-          flights={searchResults.data || []}
-          onChartFilterChange={handleChartFilterChange}
-        />
       </div>
     </>
   )
