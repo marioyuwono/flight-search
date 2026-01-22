@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react'
 import { iFlightFilter } from './Interfaces'
+import { useAirportCache } from '@/contexts/AirportCacheContext'
+import { getAirlineName } from '@/utils/chartDataProcessors'
 
 export function FlightFilters({
 	flights,
@@ -12,6 +14,7 @@ export function FlightFilters({
 	filters: iFlightFilter
 	onFilterChange: (filters: iFlightFilter) => void
 }>) {
+	const { getAirport } = useAirportCache()
 	// Calculate filter options from flight data
 	const filterOptions = useMemo(() => {
 		const airlines = new Set<string>()
@@ -174,7 +177,7 @@ export function FlightFilters({
 									className="w-4 h-4 text-blue-600 rounded"
 								/>
 								<span className="ml-2 text-gray-700 dark:text-gray-300 text-sm">
-									{airline}
+									{getAirlineName(airline)}
 								</span>
 							</label>
 						))}
@@ -296,19 +299,23 @@ export function FlightFilters({
 						Connecting Airports
 					</h4>
 					<div className="space-y-2 max-h-40 overflow-y-auto">
-						{filterOptions.connectingAirports.map((airport) => (
-							<label key={airport} className="flex items-center cursor-pointer">
-								<input
-									type="checkbox"
-									checked={filters.connectingAirports.includes(airport)}
-									onChange={() => handleConnectingAirportChange(airport)}
-									className="w-4 h-4 text-blue-600 rounded"
-								/>
-								<span className="ml-2 text-gray-700 dark:text-gray-300 text-sm">
-									{airport}
-								</span>
-							</label>
-						))}
+						{filterOptions.connectingAirports.map((airport) => {
+							const airportData = getAirport(airport)
+							const displayName = `${airportData?.city ?? ''} ${airportData?.name ?? ''}`.trim() || airport
+							return (
+								<label key={airport} className="flex items-center cursor-pointer">
+									<input
+										type="checkbox"
+										checked={filters.connectingAirports.includes(airport)}
+										onChange={() => handleConnectingAirportChange(airport)}
+										className="w-4 h-4 text-blue-600 rounded"
+									/>
+									<span className="ml-2 text-gray-700 dark:text-gray-300 text-sm">
+										{displayName} {airport != displayName ? `(${airport})` : ''}
+									</span>
+								</label>
+							)
+						})}
 					</div>
 				</div>
 			)}

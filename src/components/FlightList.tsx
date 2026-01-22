@@ -33,7 +33,7 @@ export function FlightList({
                 className="flex flex-col md:flex-row w-full justify-between bg-white dark:bg-slate-800 p-4 rounded border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow gap-4"
               >
                 {/* Time and IATA Code */}
-                <div className="flex-1">
+                <div>
                   <div className="flex gap-2">
                     <FlightTimeAndIataCode row={segments[0]} direction="departure" getAirport={getAirport} />
                     <ArrowLongRightIcon className="size-6 pt-2" />
@@ -61,7 +61,7 @@ export function FlightList({
                 </div>
 
                 {/* Price */}
-                <div className="flex-1 md:text-right">
+                <div className="md:text-right">
                   <p className="text-lg text-nowrap font-bold text-blue-600">
                     {flight.price?.currency} {flight.price?.total}
                   </p>
@@ -103,7 +103,7 @@ function FlightTimeAndIataCode({
       </span>
       <br />
       <span className="text-sm">
-        {iataCode}
+        {displayName} ({iataCode})
       </span>
     </div>
   )
