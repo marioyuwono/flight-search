@@ -1,8 +1,31 @@
 export function durationToMinutes(duration: string): number {
-  const hours = parseInt(duration[1]) || 0
-  const minutes = parseInt(duration[2]) || 0
+  const regex = /PT(?:(\d+)H)?(?:(\d+)M)?/
+  const match = duration.match(regex)
+
+  if (!match) {
+    throw new Error("Invalid duration format")
+  }
+
+  const hours = match[1] ? parseInt(match[1], 10) : 0
+  const minutes = match[2] ? parseInt(match[2], 10) : 0
+
   return hours * 60 + minutes
 }
+
+export function formatMinutesToHourMinute(totalMinutes: number): string {
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  return (
+    hours > 0
+      ? `${hours} hr `
+      : ''
+  ) + `${minutes.toString().padStart(2, "0")} min`
+}
+
+export function formatDuration(duration: string): string {
+  return formatMinutesToHourMinute(durationToMinutes(duration))
+}
+
 
 export function normalizeDateAsString(date: Date|string): string {
   if (typeof date == 'string') {
