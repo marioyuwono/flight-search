@@ -32,6 +32,9 @@ export function AirportSearch({
 
   const fieldValue = watch(fieldName)
 
+  // Keep track of current fetch controller
+  const abortControllerRef = useRef<AbortController | null>(null)
+
   // Search airports as user types
   useEffect(() => {
     const searchAirports = async () => {
@@ -41,38 +44,37 @@ export function AirportSearch({
         return
       }
 
+      // Cancel previous request if still running
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+
+      const controller = new AbortController
+      abortControllerRef.current = controller
+
       setIsLoading(true)
       try {
         const response = await fetch(
-          `/api/airports/search?query=${encodeURIComponent(searchQuery)}`
+          `/api/airports/search?query=${encodeURIComponent(searchQuery)}`,
+          { signal: controller.signal }
         )
         if (!response.ok) throw new Error("Failed to search airports")
         const data = await response.json()
         setAirports(data.data || [])
         setIsOpen(data.data && data.data.length > 0)
-      } catch (error) {
-        console.error("Airport search error:", error)
-        setAirports([])
+      } catch (error: any) {
+        if (error.name !== "AbortError") {
+          console.error("Airport search error:", error)
+          setAirports([])
+        }
       } finally {
         setIsLoading(false)
       }
     }
 
-    const debounceTimer = setTimeout(searchAirports, 300)
+    const debounceTimer = setTimeout(searchAirports, 500)
     return () => clearTimeout(debounceTimer)
   }, [searchQuery])
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
 
   useEffect(() => {
     if (fieldValue) {
@@ -94,7 +96,7 @@ export function AirportSearch({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase()
     setInput(value) // display value
-    setSearchQuery(value) // triggers search
+    setSearchQuery(value) // triggers debounced search
     setValue(fieldName, value) // Update form value with current input
   }
 
@@ -132,11 +134,11 @@ export function AirportSearch({
               onClick={() => handleSelectAirport(airport)}
               className="w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-700 border-b border-gray-200 dark:border-gray-700 last:border-b-0 transition"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="text-sm text-gray-900 dark:text-gray-400">
+                {airport.name}, {airport.city} • {airport.country}
+              <div className="font-medium text-sm text-gray-400 dark:text-white">
                 {airport.iataCode}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                {airport.name}, {airport.city} • {airport.country}
               </div>
             </button>
           ))}
