@@ -3,14 +3,8 @@
 import { MapPinIcon } from "@heroicons/react/24/solid"
 import { useEffect, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
-import { iFlightSearchFormData } from "./Interfaces"
-
-interface Airport {
-  iataCode: string
-  name: string
-  city: string
-  country: string
-}
+import { iAirport, iFlightSearchFormData } from "./Interfaces"
+import { useAirportCache } from "@/contexts/AirportCacheContext"
 
 export function AirportSearch({
   fieldName,
@@ -22,9 +16,10 @@ export function AirportSearch({
   placeholder: string
 }) {
   const { register, watch, setValue, formState: { errors } } = formMethods
+  const { addAirports, getCachedAirportDisplay } = useAirportCache()
   const [input, setInput] = useState("") // what user sees in the input
   const [searchQuery, setSearchQuery] = useState("") // what drives airport search
-  const [airports, setAirports] = useState<Airport[]>([])
+  const [airports, setAirports] = useState<iAirport[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -60,6 +55,12 @@ export function AirportSearch({
         )
         if (!response.ok) throw new Error("Failed to search airports")
         const data = await response.json()
+
+        // Cache the airports for use in other components
+        if (data.data && data.data.length > 0) {
+          addAirports(data.data)
+        }
+
         setAirports(data.data || [])
         setIsOpen(data.data && data.data.length > 0)
       } catch (error: any) {
@@ -87,7 +88,7 @@ export function AirportSearch({
     }
   }, [fieldValue, airports])
 
-  const handleSelectAirport = (airport: Airport) => {
+  const handleSelectAirport = (airport: iAirport) => {
     setValue(fieldName, airport.iataCode)
     setInput(formatAirportDisplay(airport))
     setIsOpen(false)
@@ -100,7 +101,7 @@ export function AirportSearch({
     setValue(fieldName, value) // Update form value with current input
   }
 
-  const formatAirportDisplay = (airport: Airport) => {
+  const formatAirportDisplay = (airport: iAirport) => {
     return `${airport.iataCode} - ${airport.name}, ${airport.city}`
   }
 
@@ -136,9 +137,9 @@ export function AirportSearch({
             >
               <div className="text-sm text-gray-900 dark:text-gray-400">
                 {airport.name}, {airport.city} • {airport.country}
-              <div className="font-medium text-sm text-gray-400 dark:text-white">
-                {airport.iataCode}
-              </div>
+                <div className="font-medium text-sm text-gray-400 dark:text-white">
+                  {airport.iataCode}
+                </div>
               </div>
             </button>
           ))}

@@ -1,5 +1,6 @@
 'use client'
 
+import { AirportCacheProvider } from '@/contexts/AirportCacheContext'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FlightCabinClass } from './FlightCabinClass'
@@ -12,6 +13,14 @@ import { iFlightSearchFormData } from './Interfaces'
 
 
 export function FlightSearch() {
+  return (
+    <AirportCacheProvider>
+      <FlightSearchContent />
+    </AirportCacheProvider>
+  )
+}
+
+export function FlightSearchContent() {
   const formMethods = useForm<iFlightSearchFormData>({
     defaultValues: {
       tripType: 'roundtrip',

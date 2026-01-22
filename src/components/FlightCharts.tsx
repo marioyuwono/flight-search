@@ -16,6 +16,7 @@ import {
   LineChart,
   Line,
 } from 'recharts'
+import { useAirportCache } from '@/contexts/AirportCacheContext'
 import {
   getFlightAvailabilityBreakdown,
   getDepartureTimeDistribution,
@@ -36,6 +37,8 @@ export function FlightCharts({
   flights,
   onChartFilterChange,
 }: FlightChartsProps) {
+  const { cache: airportCache } = useAirportCache()
+
   // Process data for all charts
   const availabilityData = useMemo(
     () => getFlightAvailabilityBreakdown(flights),
@@ -46,8 +49,8 @@ export function FlightCharts({
     [flights]
   )
   const destinationData = useMemo(
-    () => getTopDestinations(flights, 8),
-    [flights]
+    () => getTopDestinations(flights, 8, airportCache),
+    [flights, airportCache]
   )
   const airlineData = useMemo(() => getAirlinesServingRoute(flights), [flights])
   const durationData = useMemo(
@@ -171,18 +174,22 @@ export function FlightCharts({
               <BarChart
                 data={destinationData as any}
                 layout="vertical"
-                margin={{ left: 50, right: 10 }}
+                margin={{ left: 200, right: 10 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" style={{ fontSize: '12px' }} />
                 <YAxis
-                  dataKey="destination"
+                  dataKey="destinationName"
                   type="category"
-                  width={40}
-                  style={{ fontSize: '12px' }}
+                  width={190}
+                  style={{ fontSize: '11px' }}
                 />
                 <Tooltip
                   formatter={(value: any) => `${value} flights`}
+                  labelFormatter={(label: string) => {
+                    const destination = destinationData.find(d => d.destinationName === label)
+                    return destination?.destinationName || label
+                  }}
                   contentStyle={{
                     backgroundColor: 'rgba(0, 0, 0, 0.8)',
                     border: 'none',
