@@ -1,4 +1,7 @@
 export function durationToMinutes(duration: string): number {
+  if (!duration) {
+    return 0
+  }
   const regex = /PT(?:(\d+)H)?(?:(\d+)M)?/
   const match = duration.match(regex)
 
@@ -26,6 +29,19 @@ export function formatDuration(duration: string): string {
   return formatMinutesToHourMinute(durationToMinutes(duration))
 }
 
+export function formatSentences(text: string): string {
+  if (!text) {
+    return ''
+  }
+  return text
+    .split(/([.!?]\s+)/) // keep punctuation + space
+    .map(sentence =>
+      sentence.length > 0
+        ? sentence.charAt(0).toUpperCase() + sentence.slice(1).toLowerCase()
+        : sentence
+    )
+    .join("")
+}
 
 export function normalizeDateAsString(date: Date|string): string {
   if (typeof date == 'string') {
