@@ -79,7 +79,7 @@ export function FlightSearchContent() {
           {/* Trip Type Selection */}
           <FlightTripTypeSelection formMethods={formMethods} />
 
-          <div className='flex w-full gap-4'>
+          <div className='flex flex-col md:flex-row w-full gap-4'>
             {/* Source and Destination */}
             <FlightSourceAndDestination formMethods={formMethods} />
 

@@ -5,9 +5,19 @@
 
 
 @layer base {
+
   html,
   body {
     @apply dark:bg-trueGray-900;
   }
 }
 
+@layer components {
+  .react-datepicker-wrapper {
+    @apply block w-full;
+  }
+
+  .react-datepicker__input-container {
+    @apply w-full;
+  }
+}

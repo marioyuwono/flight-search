@@ -32,7 +32,7 @@ export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSe
   }
 
   return (
-      <div className="w-64">
+      <div className="w-full md:w-64">
       <DatePicker
         selected={departureDate}
         onChange={(dates: [Date | null, Date | null] | null) => {
