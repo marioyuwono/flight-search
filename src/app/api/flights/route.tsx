@@ -77,12 +77,10 @@ export async function POST(request: NextRequest) {
 		const results = await searchFlights(body)
 
 		return NextResponse.json(results)
-	} catch (error) {
-		console.error('API error:', error)
-		const errorMessage = error instanceof Error ? error.message : 'Failed to search flights'
-
+	} catch (error: any) {
+		console.error('API error:', getError(error))
 		return NextResponse.json({
-			error: errorMessage,
+      error: 'We’re experiencing a temporary issue fetching flight offers. Please try again later.',
 		}, { status: 500 })
 	}
 }
