@@ -1,10 +1,11 @@
 'use client'
 
+import { useAirportCache } from "@/contexts/AirportCacheContext"
+import { IAirport } from "@/types/airport"
 import { MapPinIcon } from "@heroicons/react/24/solid"
 import { useEffect, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
-import { iAirport, iFlightSearchFormData } from "./Interfaces"
-import { useAirportCache } from "@/contexts/AirportCacheContext"
+import { IFlightSearchFormData } from "../types/flight"
 
 export function AirportSearch({
   fieldName,
@@ -12,14 +13,14 @@ export function AirportSearch({
   placeholder,
 }: {
   fieldName: "source" | "destination"
-  formMethods: UseFormReturn<iFlightSearchFormData>
+  formMethods: UseFormReturn<IFlightSearchFormData>
   placeholder: string
 }) {
   const { register, watch, setValue, formState: { errors } } = formMethods
   const { addAirports, getCachedAirportDisplay } = useAirportCache()
   const [input, setInput] = useState("") // what user sees in the input
   const [searchQuery, setSearchQuery] = useState("") // what drives airport search
-  const [airports, setAirports] = useState<iAirport[]>([])
+  const [airports, setAirports] = useState<IAirport[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -88,7 +89,7 @@ export function AirportSearch({
     }
   }, [fieldValue, airports])
 
-  const handleSelectAirport = (airport: iAirport) => {
+  const handleSelectAirport = (airport: IAirport) => {
     setValue(fieldName, airport.iataCode)
     setInput(formatAirportDisplay(airport))
     setIsOpen(false)
@@ -101,7 +102,7 @@ export function AirportSearch({
     setValue(fieldName, value) // Update form value with current input
   }
 
-  const formatAirportDisplay = (airport: iAirport) => {
+  const formatAirportDisplay = (airport: IAirport) => {
     return `${airport.iataCode} - ${airport.name}, ${airport.city}`
   }
 

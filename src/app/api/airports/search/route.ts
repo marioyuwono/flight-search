@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Amadeus from 'amadeus'
 
-interface AirportData {
+interface IAirportData {
   iataCode: string
   name: string
   city: string
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Transform the response to include relevant airport information
-    const airports: AirportData[] = (response.data || []).map((airport: any) => ({
+    const airports: IAirportData[] = (response.data || []).map((airport: any) => ({
       iataCode: airport.iataCode,
       name: airport.name,
       city: airport.address?.cityName || '',

@@ -1,8 +1,8 @@
+import { IFlightSearchForm } from "@/types/flight"
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/solid"
-import { iFlightSearchForm } from "./Interfaces"
 import { AirportSearch } from "./AirportSearch"
 
-export function FlightSourceAndDestination({ formMethods }: Readonly<iFlightSearchForm>) {
+export function FlightSourceAndDestination({ formMethods }: Readonly<IFlightSearchForm>) {
   const { watch, setValue } = formMethods
   const source = watch("source")
   const destination = watch("destination")

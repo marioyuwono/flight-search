@@ -1,9 +1,9 @@
 'use client'
 
-import { useMemo } from 'react'
-import { iFlightFilter } from './Interfaces'
 import { useAirportCache } from '@/contexts/AirportCacheContext'
 import { getAirlineName } from '@/utils/chartDataProcessors'
+import { useMemo } from 'react'
+import { IFlightFilter } from '../types/flight'
 
 export function FlightFilters({
 	flights,
@@ -11,8 +11,8 @@ export function FlightFilters({
 	onFilterChange,
 }: Readonly<{
 	flights: any[]
-	filters: iFlightFilter
-	onFilterChange: (filters: iFlightFilter) => void
+	filters: IFlightFilter
+	onFilterChange: (filters: IFlightFilter) => void
 }>) {
 	const { getAirport } = useAirportCache()
 	// Calculate filter options from flight data

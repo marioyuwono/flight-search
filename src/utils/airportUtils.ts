@@ -1,9 +1,9 @@
-import { iAirport, iAirportCache } from '@/components/Interfaces'
+import { IAirport, IAirportCache } from "@/types/airport"
 
 // In-memory cache for airports during the session
-const airportCache: iAirportCache = {}
+const airportCache: IAirportCache = {}
 
-export async function getAirportInfo(iataCode: string): Promise<iAirport | null> {
+export async function getAirportInfo(iataCode: string): Promise<IAirport | null> {
   if (!iataCode) return null
 
   // Return from cache if available
@@ -29,7 +29,7 @@ export async function getAirportInfo(iataCode: string): Promise<iAirport | null>
   return null
 }
 
-export function getAirportDisplay(iataCode: string, cached: iAirportCache = {}): string {
+export function getAirportDisplay(iataCode: string, cached: IAirportCache = {}): string {
   if (!iataCode) return ''
 
   const airport = cached[iataCode]

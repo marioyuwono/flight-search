@@ -2,7 +2,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid"
 import { ChangeEvent, FC } from "react"
 import { UseFormReturn } from "react-hook-form"
 
-interface CounterProps {
+interface ICounterProps {
   name: string
   label: string
   min?: number
@@ -10,7 +10,7 @@ interface CounterProps {
   formMethods: UseFormReturn<any>
 }
 
-export const Counter: FC<CounterProps> = ({
+export const Counter: FC<ICounterProps> = ({
   name,
   label,
   min = 0,

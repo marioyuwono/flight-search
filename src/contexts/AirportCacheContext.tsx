@@ -1,23 +1,23 @@
   'use client'
 
-  import { iAirport } from '@/components/Interfaces'
+  import { IAirport } from "@/types/airport"
   import React, { createContext, useContext, useState, useCallback } from 'react'
 
-  export type iAirportCache = Record<string, iAirport>
+  export type IAirportCache = Record<string, IAirport>
 
-  interface iAirportCacheContext {
-    cache: iAirportCache
-    addAirports: (airports: iAirport[]) => void
-    getAirport: (iataCode: string) => iAirport | undefined
+  interface IAirportCacheContext {
+    cache: IAirportCache
+    addAirports: (airports: IAirport[]) => void
+    getAirport: (iataCode: string) => IAirport | undefined
     getCachedAirportDisplay: (iataCode: string) => string
   }
 
-  const AirportCacheContext = createContext<iAirportCacheContext | undefined>(undefined)
+  const AirportCacheContext = createContext<IAirportCacheContext | undefined>(undefined)
 
   export function AirportCacheProvider({ children }: { children: React.ReactNode }) {
-    const [cache, setCache] = useState<iAirportCache>({})
+    const [cache, setCache] = useState<IAirportCache>({})
 
-    const addAirports = useCallback((airports: iAirport[]) => {
+    const addAirports = useCallback((airports: IAirport[]) => {
       setCache((prevCache) => {
         const newCache = { ...prevCache }
         airports.forEach((airport) => {
@@ -28,7 +28,7 @@
     }, [])
 
     const getAirport = useCallback(
-      (iataCode: string): iAirport | undefined => {
+      (iataCode: string): IAirport | undefined => {
         return cache[iataCode]
       },
       [cache]
@@ -45,7 +45,7 @@
       [cache]
     )
 
-    const value: iAirportCacheContext = {
+    const value: IAirportCacheContext = {
       cache,
       addAirports,
       getAirport,

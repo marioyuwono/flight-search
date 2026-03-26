@@ -1,14 +1,14 @@
 import React from "react";
 import { Container } from "@/components/Container";
 
-interface SectionTitleProps {
+interface ISectionTitleProps {
   preTitle?: string;
   title?: string;
   align?: "left" | "center";
   children?: React.ReactNode;
 }
 
-export const SectionTitle = (props: Readonly<SectionTitleProps>) => {
+export const SectionTitle = (props: Readonly<ISectionTitleProps>) => {
   return (
     <Container
       className={`flex w-full flex-col mt-4 ${

@@ -2,9 +2,9 @@
 import { useEffect } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import { iFlightSearchForm } from "./Interfaces"
+import { IFlightSearchForm } from "../types/flight"
 
-export function FlightDepartureAndReturnDate({ formMethods }: Readonly<iFlightSearchForm>) {
+export function FlightDepartureAndReturnDate({ formMethods }: Readonly<IFlightSearchForm>) {
   const { register, setValue, watch, formState: { errors } } = formMethods
   const tripType = watch("tripType")
   const departureDate = watch("departureDate")

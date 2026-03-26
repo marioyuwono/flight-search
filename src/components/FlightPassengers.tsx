@@ -1,7 +1,7 @@
-import { iFlightSearchForm } from "./Interfaces"
+import { IFlightSearchForm } from "../types/flight"
 import { Counter } from "./Counter"
 
-export function FlightPassengers({ formMethods }: Readonly<iFlightSearchForm>) {
+export function FlightPassengers({ formMethods }: Readonly<IFlightSearchForm>) {
   return (
     <div className="grid md:grid-cols-3 gap-4">
       <Counter

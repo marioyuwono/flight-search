@@ -1,6 +1,7 @@
 'use client'
 
 import { AirportCacheProvider } from '@/contexts/AirportCacheContext'
+import { IFlightSearchFormData } from '@/types/flight'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FlightCabinClass } from './FlightCabinClass'
@@ -9,7 +10,6 @@ import { FlightPassengers } from './FlightPassengers'
 import { FlightResults } from './FlightResults'
 import { FlightSourceAndDestination } from './FlightSourceAndDestination'
 import { FlightTripTypeSelection } from './FlightTripTypeSelection'
-import { iFlightSearchFormData } from './Interfaces'
 
 
 export function FlightSearch() {
@@ -21,7 +21,7 @@ export function FlightSearch() {
 }
 
 export function FlightSearchContent() {
-  const formMethods = useForm<iFlightSearchFormData>({
+  const formMethods = useForm<IFlightSearchFormData>({
     defaultValues: {
       tripType: 'roundtrip',
       adults: 1,
@@ -37,7 +37,7 @@ export function FlightSearchContent() {
   const [searchResults, setSearchResults] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const onSubmit = async (data: iFlightSearchFormData) => {
+  const onSubmit = async (data: IFlightSearchFormData) => {
     setIsLoading(true)
     setErrorMessage('')
     setSearchResults(null)

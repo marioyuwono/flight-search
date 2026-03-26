@@ -1,10 +1,11 @@
-import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
-import { join, normalizeDateAsString } from '@/components/Methods'
+import { IAmadeusResponseError } from "@/types/amadeus"
+import { IFlightSearchRequest } from '@/types/flight'
+import { join, normalizeDateAsString } from '@/utils/misc'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Search flights using Amadeus API
-async function searchFlights(params: iFlightSearchRequest): Promise<any> {
+async function searchFlights(params: IFlightSearchRequest): Promise<any> {
 	const searchOption = {
 		originLocationCode: params.source,
 		destinationLocationCode: params.destination,
@@ -26,13 +27,13 @@ async function searchFlights(params: iFlightSearchRequest): Promise<any> {
 	}
 }
 
-function getError(responseError: iAmadeusResponseError): string {
+function getError(responseError: IAmadeusResponseError): string {
 	return responseError?.description[0].title ?? responseError.code
 }
 
 export async function POST(request: NextRequest) {
 	try {
-		const body: iFlightSearchRequest = await request.json()
+		const body: IFlightSearchRequest = await request.json()
 
 		// Validate required fields
     const required = {
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
     const missing: Array<string> = []
     Object.entries(required).forEach(([key, text]) => {
-      if (!body[key as keyof iFlightSearchRequest]) {
+      if (!body[key as keyof IFlightSearchRequest]) {
         missing.push(text)
       }
     } )
