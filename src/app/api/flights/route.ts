@@ -1,4 +1,5 @@
-import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
+import { iFlightSearchRequest } from '@/components/Interfaces'
+import { IAmadeusResponseError } from "@/types/amadeus"
 import { join, normalizeDateAsString } from '@/utils/misc'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
@@ -26,7 +27,7 @@ async function searchFlights(params: iFlightSearchRequest): Promise<any> {
 	}
 }
 
-function getError(responseError: iAmadeusResponseError): string {
+function getError(responseError: IAmadeusResponseError): string {
 	return responseError?.description[0].title ?? responseError.code
 }
 

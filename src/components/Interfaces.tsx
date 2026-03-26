@@ -1,16 +1,5 @@
 import { UseFormReturn } from "react-hook-form"
 
-export interface iAmadeusResponseError {
-  description: Array<{
-    status: number,
-    code: number,
-    title: string,
-    detail: string,
-    source: any
-  }>,
-  code: string
-}
-
 export interface iAirport {
   iataCode: string
   name: string
