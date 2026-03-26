@@ -1,10 +1,10 @@
-import { iChartAirlineData, iChartAvailabilityData, iChartDepartureTimeData, iChartDestinationData, iChartDurationData } from "@/components/Interfaces"
 import { IAirportCache } from "@/types/airport"
+import { IChartAirlineData, IChartAvailabilityData, IChartDepartureTimeData, IChartDestinationData, IChartDurationData } from "@/types/chart"
 
 /**
  * Process flight availability data (direct vs connecting flights)
  */
-export function getFlightAvailabilityBreakdown(flights: any[]): iChartAvailabilityData[] {
+export function getFlightAvailabilityBreakdown(flights: any[]): IChartAvailabilityData[] {
   if (!flights || flights.length === 0) {
     return []
   }
@@ -45,7 +45,7 @@ export function getFlightAvailabilityBreakdown(flights: any[]): iChartAvailabili
 /**
  * Process departure time distribution data
  */
-export function getDepartureTimeDistribution(flights: any[]): iChartDepartureTimeData[] {
+export function getDepartureTimeDistribution(flights: any[]): IChartDepartureTimeData[] {
   if (!flights || flights.length === 0) {
     return []
   }
@@ -84,7 +84,7 @@ export function getDepartureTimeDistribution(flights: any[]): iChartDepartureTim
 /**
  * Get top destinations from a city
  */
-export function getTopDestinations(flights: any[], limit = 10, airportCache: IAirportCache = {}): iChartDestinationData[] {
+export function getTopDestinations(flights: any[], limit = 10, airportCache: IAirportCache = {}): IChartDestinationData[] {
   if (!flights || flights.length === 0) {
     return []
   }
@@ -117,7 +117,7 @@ export function getTopDestinations(flights: any[], limit = 10, airportCache: IAi
 /**
  * Get airlines serving a route
  */
-export function getAirlinesServingRoute(flights: any[]): iChartAirlineData[] {
+export function getAirlinesServingRoute(flights: any[]): IChartAirlineData[] {
   if (!flights || flights.length === 0) {
     return []
   }
@@ -151,7 +151,7 @@ export function getAirlinesServingRoute(flights: any[]): iChartAirlineData[] {
 /**
  * Get flight duration distribution
  */
-export function getFlightDurationDistribution(flights: any[]): iChartDurationData[] {
+export function getFlightDurationDistribution(flights: any[]): IChartDurationData[] {
   if (!flights || flights.length === 0) {
     return []
   }

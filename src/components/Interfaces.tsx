@@ -1,36 +1,5 @@
 import { UseFormReturn } from "react-hook-form"
 
-export interface iChartAirlineData {
-  airline: string
-  count: number
-  percentage: number
-}
-
-export interface iChartAvailabilityData {
-  name: string
-  count: number
-  percentage: number
-}
-
-export interface iChartDepartureTimeData {
-  timeRange: string
-  count: number
-  percentage: number
-}
-
-export interface iChartDestinationData {
-  destination: string
-  destinationName?: string
-  count: number
-  percentage: number
-}
-
-export interface iChartDurationData {
-  range: string
-  count: number
-  percentage: number
-}
-
 export interface iFlightSearchRequest {
   tripType: 'roundtrip' | 'oneway' | 'multicity'
   source: string
