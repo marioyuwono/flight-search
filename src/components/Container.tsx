@@ -1,11 +1,11 @@
 import React from "react";
 
-interface ContainerProps {
+interface IContainerProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export function Container(props: Readonly<ContainerProps>) {
+export function Container(props: Readonly<IContainerProps>) {
   return (
     <div
       className={`container px-8 mx-auto xl:px-0 ${

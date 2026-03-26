@@ -28,7 +28,7 @@ import {
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
 
-interface FlightChartsProps {
+interface IFlightChartsProps {
   flights: any[]
   onChartFilterChange?: (filterType: string, value: string) => void
 }
@@ -36,7 +36,7 @@ interface FlightChartsProps {
 export function FlightCharts({
   flights,
   onChartFilterChange,
-}: FlightChartsProps) {
+}: IFlightChartsProps) {
   const { cache: airportCache } = useAirportCache()
 
   // Process data for all charts

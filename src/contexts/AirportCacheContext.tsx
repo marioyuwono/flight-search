@@ -3,19 +3,19 @@
   import { IAirport } from "@/types/airport"
   import React, { createContext, useContext, useState, useCallback } from 'react'
 
-  export type iAirportCache = Record<string, IAirport>
+  export type IAirportCache = Record<string, IAirport>
 
-  interface iAirportCacheContext {
-    cache: iAirportCache
+  interface IAirportCacheContext {
+    cache: IAirportCache
     addAirports: (airports: IAirport[]) => void
     getAirport: (iataCode: string) => IAirport | undefined
     getCachedAirportDisplay: (iataCode: string) => string
   }
 
-  const AirportCacheContext = createContext<iAirportCacheContext | undefined>(undefined)
+  const AirportCacheContext = createContext<IAirportCacheContext | undefined>(undefined)
 
   export function AirportCacheProvider({ children }: { children: React.ReactNode }) {
-    const [cache, setCache] = useState<iAirportCache>({})
+    const [cache, setCache] = useState<IAirportCache>({})
 
     const addAirports = useCallback((airports: IAirport[]) => {
       setCache((prevCache) => {
@@ -45,7 +45,7 @@
       [cache]
     )
 
-    const value: iAirportCacheContext = {
+    const value: IAirportCacheContext = {
       cache,
       addAirports,
       getAirport,

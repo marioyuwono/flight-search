@@ -1,4 +1,4 @@
-export interface PageProps {
+export interface IPageProps {
   params: {
     slug: string;
   };
