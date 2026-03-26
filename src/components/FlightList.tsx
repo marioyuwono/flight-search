@@ -1,7 +1,7 @@
 import { useAirportCache } from "@/contexts/AirportCacheContext"
 import { getAirlineName } from "@/utils/chartDataProcessors"
+import { formatDuration, formatSentences } from "@/utils/misc"
 import { ArrowLongRightIcon } from "@heroicons/react/24/solid"
-import { formatDuration, formatSentences } from "./Methods"
 
 export function FlightList({
   searchResults,

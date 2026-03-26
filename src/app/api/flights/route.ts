@@ -1,5 +1,5 @@
 import { iAmadeusResponseError, iFlightSearchRequest } from '@/components/Interfaces'
-import { join, normalizeDateAsString } from '@/components/Methods'
+import { join, normalizeDateAsString } from '@/utils/misc'
 import Amadeus from 'amadeus'
 import { NextRequest, NextResponse } from 'next/server'
 
