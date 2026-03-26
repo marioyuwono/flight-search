@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form"
 
-export interface iFlightSearchRequest {
+export interface IFlightSearchRequest {
   tripType: 'roundtrip' | 'oneway' | 'multicity'
   source: string
   destination: string
@@ -12,14 +12,14 @@ export interface iFlightSearchRequest {
   cabinClass: 'ECONOMY' | 'PREMIUM_ECONOMY' | 'BUSINESS' | 'FIRST'// Amadeus API's cabin class
 }
 
-export interface iFlightSearchFormData extends iFlightSearchRequest {
+export interface IFlightSearchFormData extends IFlightSearchRequest {
 }
 
-export interface iFlightSearchForm {
-  formMethods: UseFormReturn<iFlightSearchFormData>
+export interface IFlightSearchForm {
+  formMethods: UseFormReturn<IFlightSearchFormData>
 }
 
-export interface iFlightFilter {
+export interface IFlightFilter {
   stops: 'any' | 'nonstop' | 'one' | 'two'
   airlines: string[]
   priceRange: [number, number]

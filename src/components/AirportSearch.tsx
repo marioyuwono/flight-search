@@ -5,7 +5,7 @@ import { IAirport } from "@/types/airport"
 import { MapPinIcon } from "@heroicons/react/24/solid"
 import { useEffect, useRef, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
-import { iFlightSearchFormData } from "./Interfaces"
+import { IFlightSearchFormData } from "../types/flight"
 
 export function AirportSearch({
   fieldName,
@@ -13,7 +13,7 @@ export function AirportSearch({
   placeholder,
 }: {
   fieldName: "source" | "destination"
-  formMethods: UseFormReturn<iFlightSearchFormData>
+  formMethods: UseFormReturn<IFlightSearchFormData>
   placeholder: string
 }) {
   const { register, watch, setValue, formState: { errors } } = formMethods

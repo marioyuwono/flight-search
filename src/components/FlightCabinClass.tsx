@@ -1,6 +1,6 @@
-import { iFlightSearchForm } from "./Interfaces"
+import { IFlightSearchForm } from "../types/flight"
 
-export function FlightCabinClass({ formMethods }: Readonly<iFlightSearchForm>) {
+export function FlightCabinClass({ formMethods }: Readonly<IFlightSearchForm>) {
   const { register, watch, setValue, formState: { errors } } = formMethods
   return (
     <div>

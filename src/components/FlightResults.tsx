@@ -1,10 +1,10 @@
 'use client'
 
+import { IFlightFilter } from '@/types/flight'
 import { useMemo, useState } from 'react'
 import { FlightCharts } from './FlightCharts'
 import { FlightFilters } from './FlightFilters'
 import { FlightList } from './FlightList'
-import { iFlightFilter } from './Interfaces'
 
 export function FlightResults({
   searchResults,
@@ -12,7 +12,7 @@ export function FlightResults({
   searchResults: any
 }>) {
   const [activeTab, setActiveTab] = useState<'filters' | 'charts'>('filters')
-  const [filters, setFilters] = useState<iFlightFilter>({
+  const [filters, setFilters] = useState<IFlightFilter>({
     stops: 'any',
     airlines: [],
     priceRange: [0, 1000],
