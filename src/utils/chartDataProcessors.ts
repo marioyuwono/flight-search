@@ -1,4 +1,5 @@
-import { iChartAirlineData, iChartAvailabilityData, iChartDepartureTimeData, iChartDestinationData, iChartDurationData, iAirportCache } from "@/components/Interfaces"
+import { iChartAirlineData, iChartAvailabilityData, iChartDepartureTimeData, iChartDestinationData, iChartDurationData } from "@/components/Interfaces"
+import { IAirportCache } from "@/types/airport"
 
 /**
  * Process flight availability data (direct vs connecting flights)
@@ -83,7 +84,7 @@ export function getDepartureTimeDistribution(flights: any[]): iChartDepartureTim
 /**
  * Get top destinations from a city
  */
-export function getTopDestinations(flights: any[], limit = 10, airportCache: iAirportCache = {}): iChartDestinationData[] {
+export function getTopDestinations(flights: any[], limit = 10, airportCache: IAirportCache = {}): iChartDestinationData[] {
   if (!flights || flights.length === 0) {
     return []
   }
